@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/images/favicon-32x32.png"
+    />
+
+    <title>Frontend Mentor | Product list with cart</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link href="styles.css" rel="stylesheet" />
+    <script src="./script.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="list">
+        <h1>Desserts</h1>
+        <div class="items"></div>
+      </div>
+      <div class="bill">
+        <h2>Your Cart <span class="cart-count">(0)</span></h2>
+
+        <!-- Empty Cart Message -->
+        <div class="empty-cart">
+          <img
+            src="./assets/images/illustration-empty-cart.svg"
+            alt="empty cart"
+          />
+          <p>Your added items will be displayed here</p>
+        </div>
+
+        <!-- Cart Items (Initially Hidden) -->
+        <div class="item-in-cart" style="display: none">
+          <div class="creating-order">
+            <!-- Dynamically Inserted Cart Items Here -->
+          </div>
+
+          <!-- Total Order Section -->
+          <div class="total-order">
+            <p>Total</p>
+            <h3 class="total-order-price">$0.00</h3>
+          </div>
+
+          <!-- Carbon Neutral Delivery -->
+          <div class="neutral-delivery">
+            <img
+              src="./assets/images/icon-carbon-neutral.svg"
+              alt="carbon neutral"
+            />
+            <p>This is a <span>carbon-neutral</span> delivery</p>
+          </div>
+
+          <!-- Confirm Order Button -->
+          <div class="confirm-order">
+            <p>Confirm Order</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="popup-overlay">
+      <div class="popup-box">
+        <img
+          src="./assets/images/icon-order-confirmed.svg"
+          alt="order-confirmed"
+        />
+        <h2>Order Confirmed!</h2>
+        <p>We hope you enjoyed your food!</p>
+
+        <div class="order-popup-info">
+          <!-- Dynamically Inserted Ordered Items -->
+          <div class="ordered-items"></div>
+
+          <!-- Total Section -->
+          <div class="total-section">
+            <p>Order Total</p>
+            <p class="total-popup-price">$0.00</p>
+          </div>
+        </div>
+
+        <!-- Button to Start a New Order -->
+        <button class="start-new-order">Start New Order</button>
+      </div>
+    </div>
+
+    <div class="attribution">
+      Challenge by
+      <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>.
+      Coded by <a href="#">Deepika Singh</a>.
+    </div>
+  </body>
+</html>
