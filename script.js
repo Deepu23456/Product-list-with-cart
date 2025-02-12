@@ -24,9 +24,10 @@ fetch("data.json")
         itemDiv.id = `item${index + 1}`;
 
         const quantity = cart[dessert.name] || 0;
-        let cartContent =
-          quantity > 0
-            ? `
+        const hasItemInCart = quantity > 0;
+
+        let cartContent = hasItemInCart
+          ? `
           <div class="cart active-cart" data-name="${dessert.name}">
             <div class="decrement cart-add-rem" data-name="${dessert.name}">
               <img src="./assets/images/icon-decrement-quantity.svg" alt="decrement cart">
@@ -35,29 +36,28 @@ fetch("data.json")
             <div class="increment cart-add-rem" data-name="${dessert.name}">
               <img src="./assets/images/icon-increment-quantity.svg" alt="increment cart">
             </div>
-          </div>
-        `
-            : `
+          </div>`
+          : `
           <div class="cart add-to-cart" data-name="${dessert.name}">
             <img src="./assets/images/icon-add-to-cart.svg" alt="cart icon">
             <p>Add to Cart</p>
-          </div>
-        `;
+          </div>`;
 
         itemDiv.innerHTML = `
-          <img src="${dessert.image.desktop}" alt="${dessert.name}">
+          <img src="${dessert.image.desktop}" alt="${dessert.name}" 
+               style="border: ${
+                 hasItemInCart ? "2.4px solid orangered" : "none"
+               };">
           ${cartContent}
           <div class="details">
             <p>${dessert.category}</p>
             <h3>${dessert.name}</h3>
             <h3>$${dessert.price.toFixed(2)}</h3>
-          </div>
-        `;
+          </div>`;
 
         container.appendChild(itemDiv);
       });
 
-      updateCartStyles();
       renderCart();
     }
 
@@ -97,26 +97,12 @@ fetch("data.json")
           </div>
           <div class="delete" data-name="${name}">
             <img src="./assets/images/icon-remove-item.svg" alt="remove item">
-          </div>
-        `;
+          </div>`;
 
         creatingOrder.appendChild(orderDiv);
       });
 
       totalOrderPrice.textContent = `$${totalPrice.toFixed(2)}`;
-    }
-
-    function updateCartStyles() {
-      document.querySelectorAll(".cart").forEach((cartElement) => {
-        cartElement.style.backgroundColor = cartElement.classList.contains(
-          "active-cart"
-        )
-          ? "orange"
-          : "white";
-        cartElement.style.border = cartElement.classList.contains("active-cart")
-          ? "none"
-          : "0.6px solid black";
-      });
     }
 
     function updatePopup() {
@@ -133,7 +119,9 @@ fetch("data.json")
         const orderItem = document.createElement("div");
         orderItem.classList.add("order-item");
         orderItem.innerHTML = `
-          <img src="${dessert.image.desktop}" alt="${name}">
+          <img class="dessert-image" src="${
+            dessert.image.desktop
+          }" alt="${name}">
           <div class="order-info">
             <p>${name}</p>
             <div class="order-info-info">
@@ -141,15 +129,12 @@ fetch("data.json")
               <p>@$${dessert.price.toFixed(2)}</p>
             </div>
           </div>
-          <p class="order-price">$${itemTotalPrice.toFixed(2)}</p>
-        `;
+          <p class="order-price">$${itemTotalPrice.toFixed(2)}</p>`;
 
         orderPopupInfo.appendChild(orderItem);
       });
 
       totalPopupPrice.textContent = `$${totalPrice.toFixed(2)}`;
-
-      // Ensure visibility
       popupOverlay.classList.add("active");
     }
 
@@ -182,30 +167,22 @@ fetch("data.json")
       renderItems();
     });
 
-      const confirmOrderBtn = document.querySelector(".confirm-order");
-      const startNewOrderBtn = document.querySelector(".start-new-order");
+    const confirmOrderBtn = document.querySelector(".confirm-order");
+    const startNewOrderBtn = document.querySelector(".start-new-order");
 
-      confirmOrderBtn.addEventListener("click", function () {
-        updatePopup();
-        popupOverlay.classList.add("active");
-        document.body.style.overflowY = "hidden"
-      });
+    confirmOrderBtn.addEventListener("click", function () {
+      updatePopup();
+      popupOverlay.classList.add("active");
+      document.body.style.overflowY = "hidden";
+    });
 
-      startNewOrderBtn.addEventListener("click", function () {
-        // Clear cart
-        cart = {};
-        
-        // Remove cart data from local storage
-        localStorage.removeItem("cart");
-      
-        // Re-render items and cart UI
-        renderItems();
-        renderCart();
-      
-        // Hide the popup
-        popupOverlay.classList.remove("active");
-        document.body.style.overflowY = "auto"
-      });
-      
+    startNewOrderBtn.addEventListener("click", function () {
+      cart = {};
+      localStorage.removeItem("cart");
+      renderItems();
+      renderCart();
+      popupOverlay.classList.remove("active");
+      document.body.style.overflowY = "auto";
+    });
   })
   .catch((error) => console.error("Error fetching JSON:", error));
